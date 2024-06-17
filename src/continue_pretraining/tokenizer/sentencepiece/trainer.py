@@ -128,7 +128,7 @@ def train_tokenizer(
     else:
         # Stream from local files
         text_dataset = load_local_dataset(
-            load_dataset_data_type, load_dataset_local_path
+            load_dataset_local_path, load_dataset_data_type
         )
 
     text_processed_dataset = text_dataset.map(

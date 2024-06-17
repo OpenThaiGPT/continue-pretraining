@@ -2,7 +2,7 @@ from datasets import load_from_disk, load_dataset
 import os
 
 
-def load_local_dataset(data_type, local_path):
+def load_local_dataset(local_path, data_type=None):
     if data_type is None:
         text_dataset = load_from_disk(local_path)["train"]
     else:
