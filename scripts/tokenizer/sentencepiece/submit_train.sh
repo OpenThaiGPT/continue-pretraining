@@ -15,6 +15,7 @@ conda activate <your_env>
 python ./train.py \
     --output_path ./spm_tokenizer \
     --vocab_size 32000 \
-    --load_dataset_local_path <path_to_dataset> \
+    --load_dataset_path <path_to_dataset> \
     --mode bpe \
-    --large_corpus
+    --large_corpus \
+    --is_local

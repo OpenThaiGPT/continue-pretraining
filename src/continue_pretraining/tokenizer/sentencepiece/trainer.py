@@ -1,14 +1,11 @@
 import os
-from typing import Optional, Union
-from tqdm import tqdm
+from typing import Optional
 import sentencepiece as spm
 from transformers import LlamaTokenizer
-from datasets import load_dataset, Dataset
+from datasets import load_dataset, load_from_disk
 
-from ...utils import load_local_dataset
 from .constants import (
     PREPARE_DATASETS_KEY,
-    DOC_ID,
     DOC_TEXT,
     EOS_TOKEN,
     BOS_TOKEN,
@@ -17,6 +14,7 @@ from .constants import (
     WORD_MODE,
     CHAR_MODE,
     BPE_MODE,
+    TRAIN_SPLIT,
 )
 
 
@@ -57,13 +55,10 @@ class DataSetColumnIterator:
 def train_tokenizer(
     output_path: str,
     vocab_size: int,
-    num_docs: Optional[Union[str, int]] = None,
-    num_proc: Optional[int] = os.cpu_count(),
-    streaming: bool = False,
+    num_threads: Optional[int] = os.cpu_count(),
     load_dataset_path: str = "oscar",
-    load_dataset_name: str = "unshuffled_deduplicated_th",
-    load_dataset_local_path: Optional[str] = None,
-    load_dataset_data_type: Optional[str] = None,
+    load_dataset_name: Optional[str] = None,
+    is_local: bool = False,
     large_corpus: bool = False,
     mode: str = BPE_MODE,
 ) -> None:
@@ -73,13 +68,12 @@ def train_tokenizer(
     Args:
         output_path (str): The path and prefix to use when saving the trained tokenizer.
         vocab_size (int): The size of the vocabulary to use when training the tokenizer.
-        num_docs (int, optional): The number of documents to use from the input dataset.
-        num_proc (int, optional): The number of CPU cores to use when training the tokenizer. Defaults to the number of available CPU cores.
-        streaming (bool, optional): Whether the code is running on a Slurm cluster. Defaults to False.
-        load_dataset_path (str, optional): The name of the Hugging Face dataset to load. Defaults to "oscar".
+        num_threads (int, optional): The number of threads to use when training the tokenizer. Defaults to the number of available CPU cores.
+        load_dataset_path (str, optional): The name or path of the Hugging Face dataset to load. Defaults to "oscar".
         load_dataset_name (str, optional): The name of the dataset split to use. Defaults to "unshuffled_deduplicated_th".
-        load_dataset_local_path (str, optional): The path to a local directory containing the input data. If specified, the Hugging Face dataset is not used. Defaults to None.
-        load_dataset_data_type (str, optional): The file type of the input data if using a local directory. Defaults to "csv".
+        is_local (bool): Whether the dataset is local directory. Defaults to False.
+        large_corpus (bool): Whether the code is running on large dataset. Defaults to False.
+        mode (bool): The training model of tokenizer. Defaults to unigram.
 
     Returns:
         None
@@ -95,41 +89,19 @@ def train_tokenizer(
             f"mode mush be {UNIGRAM_MODE} {WORD_MODE} {CHAR_MODE} or {BPE_MODE}"  # noqa: E501
         )
 
-    if load_dataset_local_path is None:
-        if streaming:
-            text_dataset = load_dataset(
-                path=load_dataset_path,
-                name=load_dataset_name,
-                split="train",
-                streaming=streaming,
-                trust_remote_code=True,
-            )
-
-            num_docs = len(text_dataset) if num_docs is None else num_docs
-
-            new_dataset: dict = {DOC_ID: [], DOC_TEXT: []}
-            for item in tqdm(text_dataset.shuffle().take(num_docs)):
-                new_dataset[DOC_ID].append(item[DOC_ID])
-                new_dataset[DOC_TEXT].append(item[DOC_TEXT])
-            text_dataset = Dataset.from_dict(new_dataset)
-
-        else:
-            num_docs = "" if num_docs is None else num_docs
-
-            text_dataset = load_dataset(
-                path=load_dataset_path,
-                name=load_dataset_name,
-                split=f"train[:{num_docs}]",
-                trust_remote_code=True,
-            )
+    if not is_local:
+        text_dataset = load_dataset(
+            path=load_dataset_path,
+            name=load_dataset_name,
+            split=TRAIN_SPLIT,
+            trust_remote_code=True,
+        )
 
         text_dataset = text_dataset.to_iterable_dataset()
 
     else:
         # Stream from local files
-        text_dataset = load_local_dataset(
-            load_dataset_local_path, load_dataset_data_type
-        )
+        text_dataset = load_from_disk(load_dataset_path)
 
     text_processed_dataset = text_dataset.map(
         function=prepare_datasets,
@@ -145,7 +117,7 @@ def train_tokenizer(
         model_prefix=output_path + "/spm_tokenizer",
         vocab_size=vocab_size,
         user_defined_symbols=[],
-        num_threads=num_proc,
+        num_threads=num_threads,
         train_extremely_large_corpus=large_corpus,
         model_type=mode,
     )
