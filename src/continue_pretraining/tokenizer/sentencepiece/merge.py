@@ -2,8 +2,25 @@ from transformers import LlamaTokenizer
 from sentencepiece import sentencepiece_model_pb2 as sp_pb2_model
 import sentencepiece as spm
 
+from typing import Union
 
-def merge(base_tokenizer_dir, add_tokenizer_dir, get_spm_tokenizer=False):
+
+def merge(
+    base_tokenizer_dir: str,
+    add_tokenizer_dir: str,
+    get_spm_tokenizer: bool = False,
+) -> Union[LlamaTokenizer, sp_pb2_model.ModelProto]:
+    """
+    Conbine LlamaTokenizer and SentencePiece tokenizer.
+
+    Args:
+        base_tokenizer_dir (str): The path and prefix to LlamaTokenizer.
+        add_tokenizer_dir (str): The path and prefix to SentencePiece tokenizer.
+        get_spm_tokenizer (bool): Whether return as sentencepiece tokemizer. Defaults to False.
+
+    Returns:
+        LlamaTokenizer, ModelProto: The merged tokenizer.
+    """  # noqa: E501
     base_tokenizer = LlamaTokenizer.from_pretrained(base_tokenizer_dir)
     thai_sp_model = spm.SentencePieceProcessor()
     thai_sp_model.Load(add_tokenizer_dir)
