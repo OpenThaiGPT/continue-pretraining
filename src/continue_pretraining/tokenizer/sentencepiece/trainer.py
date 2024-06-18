@@ -18,25 +18,6 @@ from .constants import (
 )
 
 
-def prepare_datasets(texts: dict) -> dict:
-    """
-    Preprocesses a list of text documents and returns a dictionary with a single key 'PREPARE_DATASETS_KEY'
-    that maps to the preprocessed texts.
-
-    Args:
-        texts (dict): A dictionary containing a key 'DOC_TEXT' that maps to a list of text documents.
-
-    Returns:
-        dict: A dictionary with a single key 'PREPARE_DATASETS_KEY' that maps to a list of preprocessed text documents.
-    """  # noqa: E501
-    preapared_texts = []
-    for text in texts[DOC_TEXT]:  # for every doc
-        # write custom preprocessing
-        preapared_texts.append(text)
-
-    return {PREPARE_DATASETS_KEY: preapared_texts}
-
-
 class DataSetColumnIterator:
     def __init__(self, dataset, column_name: str):
         self.dataset = iter(dataset)
@@ -104,7 +85,7 @@ def train_tokenizer(
         text_dataset = load_from_disk(load_dataset_path)
 
     text_processed_dataset = text_dataset.map(
-        function=prepare_datasets,
+        function=lambda x: {PREPARE_DATASETS_KEY: [t for t in x[DOC_TEXT]]},
         batched=True,
     )
 
