@@ -4,7 +4,7 @@ import sentencepiece as spm
 from transformers import LlamaTokenizer
 from datasets import load_dataset, load_from_disk
 
-from .constants import (
+from continue_pretraining.tokenizer.sentencepiece.constants import (
     PREPARE_DATASETS_KEY,
     DOC_TEXT,
     EOS_TOKEN,
