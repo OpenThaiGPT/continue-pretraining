@@ -51,7 +51,7 @@ def train_tokenizer(
         vocab_size (int): The size of the vocabulary to use when training the tokenizer.
         num_threads (int, optional): The number of threads to use when training the tokenizer. Defaults to the number of available CPU cores.
         load_dataset_path (str, optional): The name or path of the Hugging Face dataset to load. Defaults to "oscar".
-        load_dataset_name (str, optional): The name of the dataset split to use. Defaults to "unshuffled_deduplicated_th".
+        load_dataset_name (str, optional): The name of the dataset split to use. Defaults to None.
         is_local (bool): Whether the dataset is local directory. Defaults to False.
         large_corpus (bool): Whether the code is running on large dataset. Defaults to False.
         mode (bool): The training model of tokenizer. Defaults to unigram.
