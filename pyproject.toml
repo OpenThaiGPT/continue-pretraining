@@ -20,5 +20,6 @@ dependencies = [
     "transformers",
     "sentencepiece",
     "wandb",
-    "protobuf"
+    "protobuf",
+    "nlpo3"
 ]
