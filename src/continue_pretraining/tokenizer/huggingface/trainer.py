@@ -2,6 +2,7 @@ from tokenizers import ByteLevelBPETokenizer
 from datasets import load_from_disk, load_dataset
 from nlpo3 import segment, load_dict
 from typing import Optional
+from tqdm import tqdm
 import os
 
 from continue_pretraining.tokenizer.huggingface.constants import (
@@ -57,7 +58,7 @@ def train(
         return result
 
     def batch_iterator(batch_size=1000):
-        for i in range(0, len(dataset), batch_size):
+        for i in tqdm(range(0, len(dataset), batch_size)):
             yield [
                 th_tokenize(text)
                 for text in dataset[i : i + batch_size][TEXT_COLUMN]  # noqa
