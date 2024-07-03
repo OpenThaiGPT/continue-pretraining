@@ -40,7 +40,7 @@ def merge(
     # Collect pieces from the base tokenizer's model
     base_spm_tokens = {p.piece for p in base_spm.pieces}
 
-    # Add pieces from the additional model to the base model if they are not already present
+    # Add pieces from the additional model to the base model if they are not already present # noqa: E501
     for p in add_spm.pieces:
         piece = p.piece
         if piece not in base_spm_tokens:
