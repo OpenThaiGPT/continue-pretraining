@@ -1,7 +1,5 @@
 from argparse import ArgumentParser
-from datasets import load_dataset
-
-from continue_pretraining.utils import load_local_dataset
+from datasets import load_dataset, load_from_disk
 
 if __name__ == "__main__":
     parser = ArgumentParser()
@@ -35,10 +33,10 @@ if __name__ == "__main__":
         help="The seed for select dataset. Defaults to 42.",
     )
 
-    args = parser.add_argument()
+    args = parser.parse_args()
 
     if args.is_local:
-        datasets = load_local_dataset(args.dataset_path)
+        datasets = load_from_disk(args.dataset_path)
     else:
         datasets = load_dataset(args.dataset_path)
 
