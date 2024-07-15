@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     # call merge function
-    tokenizer = merge(
+    tokenizer = merge.merge(
         args.main_tokenizer_path,
         args.add_tokenizer_path,
         get_spm_tokenizer=True,
