@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -p cpu                          # Specify partition [Compute/Memory/GPU]
+#SBATCH -p compute                          # Specify partition [Compute/Memory/GPU]
 #SBATCH -N 1 -c 128                     # Specify number of nodes and processors per task
 #SBATCH --ntasks-per-node=1		# Specify number of tasks per node
 #SBATCH --gpus-per-node=0		        # Specify total number of GPUs
