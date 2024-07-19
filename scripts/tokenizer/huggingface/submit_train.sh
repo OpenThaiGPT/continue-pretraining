@@ -14,7 +14,6 @@ conda activate <your_env>
 
 python ./train.py \
     --output_path ./hf_tokenizer \
-    --dict_file <path_to_vocab_dict> \
     --load_dataset_path <path_to_dataset> \
     --is_local \
     --batch_size 1000 \
