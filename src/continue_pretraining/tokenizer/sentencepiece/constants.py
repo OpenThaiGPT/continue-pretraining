@@ -1,5 +1,4 @@
-PREPARE_DATASETS_KEY = "text_processed"
-DOC_TEXT = "text"
+TEXT_COLUMN = "text"
 EOS_TOKEN = "</s>"
 BOS_TOKEN = "<s>"
 UNK_TOKEN = "<unk>"

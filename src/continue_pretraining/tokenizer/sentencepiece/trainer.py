@@ -2,11 +2,10 @@ import os
 from typing import Optional
 import sentencepiece as spm
 from transformers import LlamaTokenizer
-from datasets import load_dataset, load_from_disk
+from datasets import Dataset, load_dataset, load_from_disk
 
 from continue_pretraining.tokenizer.sentencepiece.constants import (
-    PREPARE_DATASETS_KEY,
-    DOC_TEXT,
+    TEXT_COLUMN,
     EOS_TOKEN,
     BOS_TOKEN,
     UNK_TOKEN,
@@ -16,48 +15,24 @@ from continue_pretraining.tokenizer.sentencepiece.constants import (
     BPE_MODE,
     TRAIN_SPLIT,
 )
+from tqdm import tqdm
 
 
-class DataSetColumnIterator:
+def dataset_iterator(dataset: Dataset, text_column: str):
     """
-    An iterator class for iterating over a specific column in a dataset.
+    A generator function that iterates over a dataset and yields the text data from the specified column.
 
-    Attributes:
-        dataset (iterable): The dataset to iterate over.
-        column_name (str): The name of the column to extract from each item in the dataset.
+    Args:
+        dataset (Dataset): The dataset to iterate over.
+        text_column (str): The name of the column containing the text data.
 
-    Methods:
-        __iter__(): Returns an iterator over the specified column values.
+    Yields:
+        str: The text data from the specified column for each row in the dataset.
     """  # noqa: E501
-
-    def __init__(self, dataset, column_name: str):
-        """
-        Initializes the DataSetColumnIterator with the dataset and the column name.
-
-        Args:
-            dataset (iterable): The dataset to iterate over.
-            column_name (str): The name of the column to extract from each item in the dataset.
-        """  # noqa: E501
-        self.dataset = iter(dataset)
-        self.column_name = column_name
-
-    def __iter__(self):
-        """
-        Iterates over the dataset, yielding values from the specified column.
-
-        Yields:
-            The value from the specified column in each item of the dataset.
-
-        Raises:
-            ValueError: If the specified column name is not found in an item of the dataset.
-        """  # noqa: E501
-        for item in self.dataset:
-            try:
-                yield item[self.column_name]
-            except KeyError:
-                raise ValueError(
-                    f"Column '{self.column_name}' is not a valid index for the dataset"  # noqa: E501
-                )
+    # Iterate over the dataset using tqdm to show a progress bar
+    for i in tqdm(range(len(dataset))):
+        # Yield the text data from the specified column
+        yield dataset[i][text_column]
 
 
 def train_tokenizer(
@@ -100,25 +75,16 @@ def train_tokenizer(
             split=TRAIN_SPLIT,
             trust_remote_code=True,
         )
-        text_dataset = text_dataset.to_iterable_dataset()
     else:
         # Load dataset from local disk
         text_dataset = load_from_disk(load_dataset_path)
-
-    # Process dataset
-    text_processed_dataset = text_dataset.map(
-        function=lambda x: {PREPARE_DATASETS_KEY: [t for t in x[DOC_TEXT]]},
-        batched=True,
-    )
 
     # Ensure the output directory exists
     os.makedirs(output_path, exist_ok=True)
 
     # Train SentencePiece tokenizer
     spm.SentencePieceTrainer.train(
-        sentence_iterator=iter(
-            DataSetColumnIterator(text_processed_dataset, PREPARE_DATASETS_KEY)
-        ),
+        sentence_iterator=iter(dataset_iterator(text_dataset, TEXT_COLUMN)),
         model_prefix=output_path + "/spm_tokenizer",
         vocab_size=vocab_size,
         user_defined_symbols=[],
