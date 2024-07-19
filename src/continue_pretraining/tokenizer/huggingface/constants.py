@@ -1,4 +1,3 @@
-DICT_NAME = "dict"
 TRAIN_SPLIT = "train"
 TEXT_COLUMN = "text"
 

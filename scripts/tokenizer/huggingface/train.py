@@ -12,12 +12,6 @@ if __name__ == "__main__":
         help="The path and prefix to use when saving the trained tokenizer.",
     )
     parser.add_argument(
-        "--dict_file",
-        type=str,
-        required=True,
-        help="The path and prefix to vocabulary for newmm tokenization. You can get from https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/words_th.txt.",  # noqa: E501
-    )
-    parser.add_argument(
         "--load_dataset_path",
         type=str,
         required=True,
@@ -51,7 +45,6 @@ if __name__ == "__main__":
 
     train(
         output_path=args.output_path,
-        dict_file=args.dict_file,
         load_dataset_path=args.load_dataset_path,
         load_dataset_name=args.load_dataset_name,
         is_local=args.is_local,
