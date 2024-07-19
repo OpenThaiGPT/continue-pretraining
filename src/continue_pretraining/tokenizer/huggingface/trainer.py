@@ -18,7 +18,20 @@ def dataset_batch_iterator(
     text_column: str,
     batch_size: int = 1000,
 ):
+    """
+    A generator function that iterates over a dataset in batches and yields lists of text data from the specified column.
+
+    Args:
+        dataset (Dataset): The dataset to iterate over.
+        text_column (str): The name of the column containing the text data.
+        batch_size (int, optional): The number of rows to include in each batch. Defaults to 1000.
+
+    Yields:
+        List[str]: A list of text data from the specified column for each batch in the dataset.
+    """  # noqa: E501
+    # Iterate over the dataset in steps of batch_size using tqdm to show a progress bar  # noqa: E501
     for i in tqdm(range(0, len(dataset), batch_size)):
+        # Yield a list of text data from the specified column for the current batch  # noqa: E501
         yield [
             text for text in dataset[i : i + batch_size][text_column]  # noqa: E203 E501
         ]
