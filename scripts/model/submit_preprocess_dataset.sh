@@ -12,7 +12,7 @@ ml Mamba
 conda deactivate
 conda activate <your_env>
 
-python ./data_preprocessing \
+python ./preprocess_dataset.py \
     --tokenizer_name_or_path <path_to_tokenizer>\
     --dataset_path <path_to_dataset> \
     --output_path ./tokenized_dataset \
