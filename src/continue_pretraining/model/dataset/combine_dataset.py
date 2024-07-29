@@ -1,4 +1,5 @@
 from datasets import IterableDataset
+from typing import List, Optional
 import random
 
 
@@ -8,11 +9,16 @@ class CombinedDataset(IterableDataset):
 
     Args:
         datasets (List[IterableDataset]): List of datasets to be combined.
-        seed (int): Random seed for reproducibility.
-        weights (Optional[List[float]]): Weights for each dataset. If None, equal weights are assigned.
+        seed (int): Random seed for reproducibility. Defaults to 42.
+        weights (Optional[List[float]]): Weights for each dataset by reference on minimun dataset. If None, equal weights are assigned. Defaults to None.
     """  # noqa: E501
 
-    def __init__(self, datasets, seed, weights=None):
+    def __init__(
+        self,
+        datasets: List[IterableDataset],
+        seed: int = 42,
+        weights: Optional[List[float]] = None,
+    ):
         self._seed = seed
         self._datasets = datasets
         self._weights = weights
@@ -33,8 +39,8 @@ class CombinedDataset(IterableDataset):
         """
         return CombinedDatasetIterator(
             self._datasets,
-            self._seed,
             self._weights,
+            self._seed,
         )
 
     def __len__(self):
@@ -50,11 +56,16 @@ class CombinedDatasetIterator:
 
     Args:
         datasets (List[IterableDataset]): List of datasets to be iterated over.
-        seed (int): Random seed for reproducibility.
         weights (List[float]): Weights for each dataset.
+        seed (int): Random seed for reproducibility. Defaults to 42.
     """
 
-    def __init__(self, datasets, seed, weights):
+    def __init__(
+        self,
+        datasets: List[IterableDataset],
+        weights: List[float],
+        seed: int = 42,
+    ):
         self._datasets = [iter(el) for el in datasets]
         self._weights = weights
         self._rng = random.Random(seed)

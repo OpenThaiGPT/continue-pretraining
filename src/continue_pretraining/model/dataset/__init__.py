@@ -1,5 +1,5 @@
 from datasets import load_from_disk
-from typing import Dict
+from typing import Dict, List, Optional
 import os
 
 from continue_pretraining.model.dataset.combine_dataset import CombinedDataset
@@ -9,19 +9,24 @@ from continue_pretraining.model.dataset.data_collator import (
 from continue_pretraining.model.args import DataArguments
 
 
-def load_dataset(paths, weights, split, seed=42):
+def load_dataset(
+    paths: List[str],
+    weights: Optional[List[float]] = None,
+    split: str = "train",
+    seed: int = 42,
+):
     """
     Loads a dataset from disk and applies weights to the data files.
 
     Args:
         paths (List[str]): List of paths to the data files.
-        weights (List[float]): List of weights associated with the data files.
-        split (str): Name of the split to load (e.g., 'train' or 'eval').
+        weights (Optional[List[float]]): Weights for each dataset file by reference on minimun dataset. If None, equal weights are assigned..
+        split (str): Name of the split to load (e.g., 'train' or 'eval'). Defaults to 'train'.
         seed (int, optional): Random seed for reproducibility. Defaults to 42.
 
     Returns:
         CombinedDataset: A combined dataset with the specified weights.
-    """
+    """  # noqa: E501
     datasets = []
     for path in paths:
         path_to_split = os.path.join(path, split)
@@ -30,9 +35,12 @@ def load_dataset(paths, weights, split, seed=42):
     return CombinedDataset(datasets, seed, weights)
 
 
-def make_supervised_data_module(data_args: DataArguments, seed=42) -> Dict:
+def make_supervised_data_module(
+    data_args: DataArguments,
+    seed: int = 42,
+) -> Dict:
     """
-    Creates a data module for supervised fine-tuning, including datasets and data collator.
+    Creates a data module for pretraining, including datasets and data collator.
 
     Args:
         data_args (DataArguments): Configuration for loading datasets.
