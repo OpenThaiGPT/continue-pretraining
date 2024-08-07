@@ -25,18 +25,19 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--is_local",
+        action="store_true",
         default=False,
         help="Whether the dataset is local directory. Defaults to False.",
     )
     parser.add_argument(
         "--batch_size",
-        type=str,
+        type=int,
         default=1000,
         help="The size of the batch to use when training the tokenizer. Defaults to 1000.",  # noqa: E501
     )
     parser.add_argument(
         "--vocab_size",
-        type=str,
+        type=int,
         default=32000,
         help="The size of the vocabulary to use when training the tokenizer. Defaults to 32000.",  # noqa: E501
     )

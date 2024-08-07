@@ -77,7 +77,7 @@ def train_tokenizer(
         )
     else:
         # Load dataset from local disk
-        text_dataset = load_from_disk(load_dataset_path)
+        text_dataset = load_from_disk(load_dataset_path)[TRAIN_SPLIT]
 
     # Ensure the output directory exists
     os.makedirs(output_path, exist_ok=True)

@@ -3,6 +3,13 @@ import json
 import os
 from typing import Dict
 
+from continue_pretraining.tokenizer.huggingface.constants import (
+    TEMP_FOLDER,
+    UTF8_ENCODING,
+    MERGE_VOCAB_FILE,
+    NEW_MERGED_RULE,
+)
+
 
 def merge(
     base_tokenizer_dir: str,
@@ -35,8 +42,7 @@ def merge(
     add_vocab = add_tokenizer.get_vocab()
 
     # Create a folder to store the new merged vocabulary and merge file
-    folder_path = "./temp"
-    os.mkdir(folder_path)
+    os.makedirs(TEMP_FOLDER, exist_ok=True)
 
     # Create a new vocabulary by merging the base and additional vocabularies
     new_vocab: Dict[str, int] = {}
@@ -56,21 +62,20 @@ def merge(
     new_vocab_json = json.dumps(new_vocab, ensure_ascii=False)
 
     # Write the new vocabulary JSON to a file
-    vocab_file_path = os.path.join(folder_path, "merge_vocab.json")
-    with open(vocab_file_path, "w", encoding="utf-8") as outfile:
+    vocab_file_path = os.path.join(TEMP_FOLDER, MERGE_VOCAB_FILE)
+    with open(vocab_file_path, "w", encoding=UTF8_ENCODING) as outfile:
         outfile.write(new_vocab_json)
 
     # Merge the base and additional merge files
-    merge_file_path = os.path.join(folder_path, "new_merged_rule.txt")
-    with open(base_merge_file, "r", encoding="utf-8") as f1, open(
-        add_merge_file, "r", encoding="utf-8"
-    ) as f2, open(merge_file_path, "w", encoding="utf-8") as out_file:
+    merge_file_path = os.path.join(TEMP_FOLDER, NEW_MERGED_RULE)
+    with open(base_merge_file, "r", encoding=UTF8_ENCODING) as f1, open(
+        add_merge_file, "r", encoding=UTF8_ENCODING
+    ) as f2, open(merge_file_path, "w", encoding=UTF8_ENCODING) as out_file:
         # Ignore the first line of each input file
         next(f1)
         next(f2)
 
         # Read the remaining lines of each file and write unique lines to the output file  # noqa: E501
-
         lines = set()
         for line in f1:
             if line not in lines:
