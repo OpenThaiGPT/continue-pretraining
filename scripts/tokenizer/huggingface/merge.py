@@ -5,16 +5,16 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--base_tokenizer_dir",
+        "--main_tokenizer_path",
         type=str,
         required=True,
-        help="Directory of the base tokenizer.",
+        help="Path of the main tokenizer.",
     )
     parser.add_argument(
-        "--add_tokenizer_dir",
+        "--add_tokenizer_path",
         type=str,
         required=True,
-        help="Directory of the additional tokenizer.",
+        help="Path of the additional tokenizer.",
     )
     parser.add_argument(
         "--base_merge_file",
@@ -27,10 +27,10 @@ if __name__ == "__main__":
         help="File path of the additional tokenizer's merge rules.",
     )
     parser.add_argument(
-        "--output_dir",
+        "--output_path",
         type=str,
         required=True,
-        help="Directory of the merged tokenizer.",
+        help="Path of output tokenizer.",
     )
 
     args = parser.parse_args()
@@ -45,9 +45,9 @@ if __name__ == "__main__":
         add_merge_file = args.add_merge_file
 
     tokenizer = merge(
-        args.base_tokenizer_dir,
-        args.add_tokenizer_dir,
+        args.main_tokenizer_path,
+        args.add_tokenizer_path,
         base_merge_file,
         add_merge_file,
     )
-    tokenizer.save_pretrained(args.output_dir)
+    tokenizer.save_pretrained(args.output_path)

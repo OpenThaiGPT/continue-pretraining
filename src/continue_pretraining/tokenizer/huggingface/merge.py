@@ -12,8 +12,8 @@ from continue_pretraining.tokenizer.huggingface.constants import (
 
 
 def merge(
-    base_tokenizer_dir: str,
-    add_tokenizer_dir: str,
+    main_tokenizer_path: str,
+    add_tokenizer_path: str,
     base_merge_file: str,
     add_merge_file: str,
 ):
@@ -21,8 +21,8 @@ def merge(
     Merges two tokenizers into one by combining their vocabularies and merge files.
 
     Args:
-        base_tokenizer_dir (str): Directory of the base tokenizer.
-        add_tokenizer_dir (str): Directory of the additional tokenizer.
+        main_tokenizer_path (str): Directory of the base tokenizer.
+        add_tokenizer_path (str): Directory of the additional tokenizer.
         base_merge_file (str): File path of the base tokenizer's merge rules.
         add_merge_file (str): File path of the additional tokenizer's merge rules.
 
@@ -31,10 +31,10 @@ def merge(
     """  # noqa: E501
     # Load the base and additional tokenizers
     base_tokenizer = PreTrainedTokenizerFast.from_pretrained(
-        base_tokenizer_dir,
+        main_tokenizer_path,
     )
     add_tokenizer = PreTrainedTokenizerFast.from_pretrained(
-        add_tokenizer_dir,
+        add_tokenizer_path,
     )
 
     # Retrieve the vocabularies from both tokenizers

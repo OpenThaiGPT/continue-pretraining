@@ -6,16 +6,16 @@ from typing import Union
 
 
 def merge(
-    base_tokenizer_dir: str,
-    add_tokenizer_dir: str,
+    main_tokenizer_path: str,
+    add_tokenizer_path: str,
     get_spm_tokenizer: bool = False,
 ) -> Union[LlamaTokenizer, sp_pb2_model.ModelProto]:
     """
     Combine LlamaTokenizer and SentencePiece tokenizer.
 
     Args:
-        base_tokenizer_dir (str): The path to the directory containing the base LlamaTokenizer.
-        add_tokenizer_dir (str): The path to the directory containing the additional SentencePiece tokenizer.
+        main_tokenizer_path (str): The path to the directory containing the base LlamaTokenizer.
+        add_tokenizer_path (str): The path to the directory containing the additional SentencePiece tokenizer.
         get_spm_tokenizer (bool): Whether to return the combined tokenizer as a SentencePiece tokenizer. Defaults to False.
 
     Returns:
@@ -23,11 +23,11 @@ def merge(
     """  # noqa: E501
 
     # Load the base LlamaTokenizer
-    base_tokenizer = LlamaTokenizer.from_pretrained(base_tokenizer_dir)
+    base_tokenizer = LlamaTokenizer.from_pretrained(main_tokenizer_path)
 
     # Load the additional SentencePiece model
     additional_sp_model = spm.SentencePieceProcessor()
-    additional_sp_model.Load(add_tokenizer_dir)
+    additional_sp_model.Load(add_tokenizer_path)
 
     # Parse the base tokenizer's SentencePiece model
     base_spm = sp_pb2_model.ModelProto()
