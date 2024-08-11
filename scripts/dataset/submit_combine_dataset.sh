@@ -13,8 +13,8 @@ conda deactivate
 conda activate <your_env>
 
 python ./combine_dataset.py \
-    --dataset_path_1 /project/lt200258-aithai/boss/refactor/continue-pretraining/example/sample_dataset/sample_dataset \
-    --dataset_path_2 /project/lt200258-aithai/boss/refactor/continue-pretraining/example/sample_dataset/sample_dataset \
+    --dataset_path_1 <path_to_dataset_1> \
+    --dataset_path_2 <path_to_dataset_2> \
     --output_path ./combine_dataset  \
     --ratio_1 1. \
     --ratio_2 1. \
