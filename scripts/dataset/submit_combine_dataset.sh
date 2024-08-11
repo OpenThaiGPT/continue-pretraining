@@ -12,9 +12,12 @@ ml Mamba
 conda deactivate
 conda activate <your_env>
 
-python ./sample_dataset.py \
-    --dataset_path <path_to_dataset> \
-    --output_path ./sample_dataset  \
-    --ratio 0.8 \
+python ./combine_dataset.py \
+    --dataset_path_1 /project/lt200258-aithai/boss/refactor/continue-pretraining/example/sample_dataset/sample_dataset \
+    --dataset_path_2 /project/lt200258-aithai/boss/refactor/continue-pretraining/example/sample_dataset/sample_dataset \
+    --output_path ./combine_dataset  \
+    --ratio_1 1. \
+    --ratio_2 1. \
+    --split train \
     --seed 42 \
     --is_local
