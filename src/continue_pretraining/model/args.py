@@ -1,12 +1,12 @@
 from dataclasses import dataclass, field
-from typing import Optional, List
+from typing import Optional
 import transformers
 
 
 @dataclass
 class ModelArguments:
     model_name_or_path: Optional[str] = field(
-        default="facebook/opt-125m",
+        default=None,
         metadata={"help": "The model path for weights initialization."},
     )
     tokenizer_name_or_path: Optional[str] = field(
@@ -25,12 +25,9 @@ class ModelArguments:
 
 @dataclass
 class DataArguments:
-    data_path: List[str] = field(
-        default_factory=list, metadata={"help": "Path to the tokenized data."}
-    )
-    data_weights: List[float] = field(
-        default_factory=list,
-        metadata={"help": "List of weights associated with the data files."},
+    data_path: Optional[str] = field(
+        default=None,
+        metadata={"help": "Path to the tokenized data."},
     )
     train_split: Optional[str] = field(
         default="train",

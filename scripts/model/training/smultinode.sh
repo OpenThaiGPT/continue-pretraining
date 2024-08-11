@@ -11,7 +11,7 @@ module load cudatoolkit/22.7_11.7
 module load gcc/10.3.0
 
 conda deactivate
-conda activate ./env
+conda activate <your_env>
 
 echo myuser=`whoami`
 echo COUNT_NODE=$COUNT_NODE
@@ -40,12 +40,10 @@ accelerate launch \
     --machine_rank $SLURM_PROCID \
     --main_process_ip $MASTER_ADDR \
     --main_process_port $MASTER_PORT \
-    scripts/train.py \
+    ./train.py \
         --model_name_or_path <model_name_or_path> \
         --tokenizer_name_or_path <tokenizer_name_or_path> \
-        --use_flash_attention_2 True \
         --data_path <data_path> \
-        --data_weights 1. \
         --data_seed 42 \
         --train_split train \
         --eval_split eval \

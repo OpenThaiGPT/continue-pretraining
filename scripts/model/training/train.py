@@ -30,9 +30,7 @@ if __name__ == "__main__":
     )
 
     # Prepare the data module for supervised training
-    data_module = make_supervised_data_module(
-        data_args=data_args, seed=training_args.data_seed
-    )
+    data_module = make_supervised_data_module(data_args=data_args)
 
     # Initialize Trainer with model, tokenizer, training arguments, and data module # noqa: E501
     trainer = Trainer(
