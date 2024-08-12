@@ -3,12 +3,12 @@ from typing import Dict
 import os
 
 from continue_pretraining.model.data_collator import (
-    DataCollatorForSupervisedDataset,
+    DataCollatorForPretraining,
 )
 from continue_pretraining.model.args import DataArguments
 
 
-def make_supervised_data_module(
+def make_data_module(
     data_args: DataArguments,
 ) -> Dict:
     """
@@ -26,7 +26,7 @@ def make_supervised_data_module(
     eval_dataset = load_from_disk(
         os.path.join(data_args.data_path, data_args.eval_split)
     )
-    data_collator = DataCollatorForSupervisedDataset()
+    data_collator = DataCollatorForPretraining()
     return {
         "train_dataset": train_dataset,
         "eval_dataset": eval_dataset,

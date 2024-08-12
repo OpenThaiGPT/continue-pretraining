@@ -2,7 +2,7 @@ from typing import Sequence, Dict
 import torch
 
 
-class DataCollatorForSupervisedDataset(object):
+class DataCollatorForPretraining(object):
     """Collate examples for pretraining."""
 
     def __call__(self, instances: Sequence[Dict]) -> Dict[str, torch.Tensor]:
