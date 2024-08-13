@@ -48,8 +48,8 @@ if __name__ == "__main__":
     else:
         datasets = load_dataset(args.dataset_path)
 
-    sampled_datasets = datasets.train_test_split(
+    datasets["train"] = datasets["train"].train_test_split(
         train_size=args.ratio,
         seed=args.seed,
     )["train"]
-    sampled_datasets.save_to_disk(args.output_path, num_proc=args.num_proc)
+    datasets.save_to_disk(args.output_path, num_proc=args.num_proc)

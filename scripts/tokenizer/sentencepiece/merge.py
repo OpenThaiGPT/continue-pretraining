@@ -12,19 +12,19 @@ if __name__ == "__main__":
         "--main_tokenizer_path",
         type=str,
         required=True,
-        help="path to original llama tokenizer",
+        help="Path to original llama tokenizer",
     )
     parser.add_argument(
         "--add_tokenizer_path",
         type=str,
         required=True,
-        help="path to tokenizer for add vocab",
+        help="Path to tokenizer for add vocab",
     )
     parser.add_argument(
         "--output_path",
         type=str,
         required=True,
-        help="path of output tokenizer",
+        help="Path of output tokenizer",
     )
 
     args = parser.parse_args()
