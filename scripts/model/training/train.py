@@ -6,7 +6,7 @@ from continue_pretraining.model.args import (
     DataArguments,
     ModelArguments,
 )
-from continue_pretraining.model.dataset import make_supervised_data_module
+from continue_pretraining.model.dataset import make_data_module
 
 if __name__ == "__main__":
     parser = transformers.HfArgumentParser(
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     )
 
     # Prepare the data module for supervised training
-    data_module = make_supervised_data_module(data_args=data_args)
+    data_module = make_data_module(data_args=data_args)
 
     # Initialize Trainer with model, tokenizer, training arguments, and data module # noqa: E501
     trainer = Trainer(
