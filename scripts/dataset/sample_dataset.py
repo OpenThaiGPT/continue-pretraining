@@ -1,6 +1,8 @@
 from argparse import ArgumentParser
 from datasets import load_dataset, load_from_disk
 
+import os
+
 if __name__ == "__main__":
     parser = ArgumentParser()
 
@@ -32,6 +34,12 @@ if __name__ == "__main__":
         default=42,
         help="The seed for select dataset. Defaults to 42.",
     )
+    parser.add_argument(
+        "--num_proc",
+        default=os.cpu_count(),
+        type=int,
+        help="The number of processes to use for tokenization. Defaults to the number of CPU cores.",  # noqa: E501
+    )
 
     args = parser.parse_args()
 
@@ -44,4 +52,4 @@ if __name__ == "__main__":
         train_size=args.ratio,
         seed=args.seed,
     )["train"]
-    datasets.save_to_disk(args.output_path)
+    datasets.save_to_disk(args.output_path, num_proc=args.num_proc)
