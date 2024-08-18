@@ -1,4 +1,4 @@
-# การประมวลผลชุดข้อมูล (Dataset processing)
+# การประมวลผลชุดข้อมูล (Dataset Processing)
 ประกอบด้วยสคริปต์สำหรับการรวมและสุ่มตัวอย่างชุดข้อมูลโดยใช้ไลบรารี HuggingFace datasets ซึ่งออกแบบมาเพื่อให้ทำงานบน cluster computing โดยใช้ SLURM
 
 ## วิธีการใช้งาน (Usage)
@@ -42,7 +42,7 @@ python combine_dataset.py \
 - `--seed`: ค่า seed สำหรับการสลับตัวอย่างแบบสุ่ม (ไม่จำเป็น, ค่าเริ่มต้น: 42)
 - `--num_proc`: จำนวนกระบวนการสำหรับการตัดคำ (ไม่จำเป็น, ค่าเริ่มต้น: จำนวนคอร์ของ CPU)
 
-### ตัวอย่างการใช้งาน (Example Usage)
+#### ตัวอย่างการใช้งาน (Example Usage)
 ```bash
 คัดลอกโค้ด
 python sample_dataset.py \
@@ -53,7 +53,7 @@ python sample_dataset.py \
     --is_local
 ```
 
-### สคริปต์ SLURM (SLURM Job Scripts)
+## สคริปต์ SLURM (SLURM Job Scripts)
 มีสคริปต์งาน SLURM สำหรับเรียกใช้สคริปต์การรวมและสุ่มตัวอย่างชุดข้อมูลบน cluster computing
 - `combine_dataset.sh` สคริปต์นี้จะส่งงานเพื่อรวมชุดข้อมูลสองชุด
 - `sample_dataset.sh` สคริปต์นี้จะส่งงานเพื่อสุ่มตัวอย่างชุดข้อมูล

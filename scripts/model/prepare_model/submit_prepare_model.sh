@@ -13,6 +13,6 @@ conda deactivate
 conda activate <your_env>
 
 python ./prepare_model.py \
-    --model_name_or_path <model_name_or_path> \
-    --tokenizer_path <path_to_tokenizer>\
-    --output_path ./resize_model \
+    --model_name_or_path /path/to/model \
+    --tokenizer_path /path/to/tokenizer \
+    --output_path /path/to/output \

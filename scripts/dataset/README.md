@@ -1,7 +1,8 @@
-# Dataset processing
-Contains scripts to combine and sample datasets using the Hugging Face datasets library. The processes are designed to be run on a computing cluster using SLURM.
+# Dataset Processing
+Contains scripts to combine and sample datasets using the HuggingFace datasets library. The processes are designed to be run on a computing cluster using SLURM.
 
 ## Usage
+
 ### Combining Datasets
 The `combine_dataset.py` script combines two datasets by sampling a ratio of each dataset and concatenating them.
 
