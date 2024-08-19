@@ -13,8 +13,8 @@ conda deactivate
 conda activate <your_env>
 
 python ./train.py \
-    --output_path ./hf_tokenizer \
-    --load_dataset_path <path_to_dataset> \
+    --output_path /path/to/output \
+    --load_dataset_path /path/to/dataset \
     --is_local \
     --batch_size 1000 \
     --vocab_size 32000 \

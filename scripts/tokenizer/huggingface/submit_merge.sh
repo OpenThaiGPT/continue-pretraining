@@ -13,6 +13,6 @@ conda deactivate
 conda activate <your_env>
 
 python ./merge.py \
-    --base_tokenizer_dir <path_to_original_hugginface_tokenizer> \
-    --add_tokenizer_dir <path_to_extra_hugginface_tokenizer> \
-    --output_dir <path_to_save> \
+    --base_tokenizer_dir /path/to/original/hugginface/tokenizer \
+    --add_tokenizer_dir /path/to/extra/hugginface/tokenizer \
+    --output_dir /path/to/output \
