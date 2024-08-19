@@ -15,12 +15,6 @@ class ModelArguments:
             "help": "The tokenizer to use. If None, the same as model_name_or_path is used."  # noqa: E501
         },
     )
-    attn_implementation: Optional[str] = field(
-        default="sdpa",
-        metadata={
-            "help": "The attention implementation to use. Options include 'sdpa', 'flash_attention_2', etc."  # noqa: E501
-        },
-    )
 
 
 @dataclass
@@ -53,6 +47,6 @@ class TrainingArguments(transformers.TrainingArguments):
     checkpoint: Optional[str] = field(
         default=None,
         metadata={
-            "help": "Path to a specific checkpoint to resume training from.",
+            "help": "Path to a specific checkpoint to resume training.",
         },
     )

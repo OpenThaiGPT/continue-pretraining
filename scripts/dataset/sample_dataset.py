@@ -43,13 +43,20 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    # Load datasets.
+    # โหลด datasets
     if args.is_local:
         datasets = load_from_disk(args.dataset_path)
     else:
         datasets = load_dataset(args.dataset_path)
 
+    # Sample dataset
+    # สุ่มตัวอย่าง dataset
     datasets["train"] = datasets["train"].train_test_split(
         train_size=args.ratio,
         seed=args.seed,
     )["train"]
+
+    # Save dataset
+    # บันทึก dataset
     datasets.save_to_disk(args.output_path, num_proc=args.num_proc)

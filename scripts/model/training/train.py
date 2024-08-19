@@ -15,10 +15,12 @@ if __name__ == "__main__":
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
     # If no tokenizer path is provided, use the model path
+    # หากไม่มีการระบุ path สำหรับ tokenizer ให้ใช้ path ของ model แทน
     if model_args.tokenizer_name_or_path is None:
         model_args.tokenizer_name_or_path = model_args.model_name_or_path
 
     # Load pre-trained model and tokenizer for causal language modeling
+    # โหลด model และ tokenizer ที่ pre-trained สำหรับ causal language modeling
     model = transformers.AutoModelForCausalLM.from_pretrained(
         model_args.model_name_or_path,
         cache_dir=training_args.cache_dir,
@@ -30,9 +32,11 @@ if __name__ == "__main__":
     )
 
     # Prepare the data module for supervised training
+    # เตรียม data module สำหรับการเทรนแบบ supervised
     data_module = make_data_module(data_args=data_args)
 
     # Initialize Trainer with model, tokenizer, training arguments, and data module # noqa: E501
+    # Initialize Trainer ด้วย model, tokenizer, training arguments และ data module # noqa: E501
     trainer = Trainer(
         model=model, tokenizer=tokenizer, args=training_args, **data_module
     )

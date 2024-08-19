@@ -41,14 +41,14 @@ accelerate launch \
     --main_process_ip $MASTER_ADDR \
     --main_process_port $MASTER_PORT \
     ./train.py \
-        --model_name_or_path <model_name_or_path> \
-        --tokenizer_name_or_path <tokenizer_name_or_path> \
-        --data_path <data_path> \
+        --model_name_or_path /path/to/model \
+        --tokenizer_name_or_path /path/to/tokenizer \
+        --data_path /path/to/data \
         --data_seed 42 \
         --train_split train \
         --eval_split eval \
         --bf16 True \
-        --output_dir ./checkpoint/ \
+        --output_dir /path/to/output \
         --num_train_epochs 3 \
         --per_device_train_batch_size 32 \
         --per_device_eval_batch_size 32 \
