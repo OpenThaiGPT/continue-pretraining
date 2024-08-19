@@ -28,10 +28,24 @@ def dataset_batch_iterator(
 
     Yields:
         List[str]: A list of text data from the specified column for each batch in the dataset.
+
+    ---
+
+    ฟังก์ชัน generator ที่วนลูปผ่าน dataset เป็น batch และคืนค่ารายการของข้อมูล text จากคอลัมน์ที่ระบุ
+
+    Args:
+        dataset (Dataset): dataset ที่จะวนลูป
+        text_column (str): ชื่อของคอลัมน์ที่มีข้อมูล text
+        batch_size (int, optional): จำนวนแถวในแต่ละ batch ขนาดเริ่มต้นเป็น 1000
+
+    Yields:
+        List[str]: รายการของข้อมูล text จากคอลัมน์ที่ระบุสำหรับแต่ละ batch ใน dataset
     """  # noqa: E501
     # Iterate over the dataset in steps of batch_size using tqdm to show a progress bar  # noqa: E501
+    # วนลูปผ่าน dataset เป็นช่วงของ batch_size โดยใช้ tqdm แสดงแถบความก้าวหน้า
     for i in tqdm(range(0, len(dataset), batch_size)):
         # Yield a list of text data from the specified column for the current batch  # noqa: E501
+        # คืนค่ารายการของข้อมูล text จากคอลัมน์ที่ระบุสำหรับ batch ปัจจุบัน
         yield [
             text for text in dataset[i : i + batch_size][text_column]  # noqa: E203 E501
         ]
@@ -58,9 +72,25 @@ def train(
 
     Returns:
         None
+
+    ---
+
+    ฝึกฝน ByteLevelBPETokenizer บน dataset ข้อความขนาดใหญ่
+
+    Args:
+        output_path (str): เส้นทางที่ใช้เมื่อบันทึก tokenizer ที่ฝึกฝนแล้ว
+        load_dataset_path (str): ชื่อหรือ path ของ Hugging Face dataset ที่จะโหลด
+        load_dataset_name (Optional[str]): ชื่อของ dataset split ที่จะใช้ ค่าเริ่มต้นเป็น None
+        is_local (bool): ว่า dataset อยู่ใน directory ภายในเครื่องหรือไม่ ค่าเริ่มต้นเป็น False
+        batch_size (int): ขนาดของ batch ที่ใช้ในการฝึกฝน tokenizer ค่าเริ่มต้นเป็น 1000
+        vocab_size (int): ขนาดของ vocabulary ที่ใช้ในการฝึกฝน tokenizer ค่าเริ่มต้นเป็น 32000
+
+    Returns:
+        None
     """  # noqa: E501
 
     # Load the dataset
+    # โหลด dataset
     if not is_local:
         dataset = load_dataset(
             path=load_dataset_path,
@@ -70,12 +100,15 @@ def train(
         )
     else:
         # Load dataset from local disk
+        # โหลด dataset จาก local disk
         dataset = load_from_disk(load_dataset_path)[TRAIN_SPLIT]
 
     # Instantiate the ByteLevelBPETokenizer
+    # สร้าง ByteLevelBPETokenizer
     tokenizer = ByteLevelBPETokenizer()
 
     # Train the tokenizer on the dataset
+    # ฝึกฝน tokenizer บน dataset
     tokenizer.train_from_iterator(
         dataset_batch_iterator(dataset, TEXT_COLUMN, batch_size),
         vocab_size=vocab_size,
@@ -84,6 +117,7 @@ def train(
     )
 
     # Save the trained tokenizer to disk
+    # บันทึก tokenizer ที่ฝึกฝนแล้วไปยัง disk
     os.makedirs(output_path, exist_ok=True)
     tokenizer.save(output_path + "/tokenizer.json")
     tokenizer.save_model(output_path)

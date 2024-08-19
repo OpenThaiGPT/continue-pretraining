@@ -61,6 +61,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Load and shuffle datasets.
+    # โหลดและสลับข้อมูล datasets
     if args.is_local:
         dataset_1 = load_from_disk(
             os.path.join(args.dataset_path_1, args.split),
@@ -75,15 +76,18 @@ if __name__ == "__main__":
     dataset_2 = dataset_2.shuffle(seed=args.seed)
 
     # Calculate sample size
+    # คำนวณขนาด sample
     minimun_size = min(len(dataset_1), len(dataset_2))
     size_dataset_1 = int(minimun_size * args.ratio_1)
     size_dataset_2 = int(minimun_size * args.ratio_2)
 
     # Sample dataset
+    # สุ่มตัวอย่าง dataset
     sample_dataset_1 = dataset_1.select(range(size_dataset_1))
     sample_dataset_2 = dataset_2.select(range(size_dataset_2))
 
     # Combine dataset
+    # รวม dataset
     combined_dataset = concatenate_datasets(
         [
             sample_dataset_1,
@@ -92,4 +96,5 @@ if __name__ == "__main__":
     )
 
     # Save dataset
+    # บันทึก dataset
     combined_dataset.save_to_disk(args.output_path, num_proc=args.num_proc)

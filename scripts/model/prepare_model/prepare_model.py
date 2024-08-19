@@ -24,12 +24,15 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Load model and tokenizer
+    # โหลดโมเดลและตัวตัดคำ
     model = AutoModelForCausalLM.from_pretrained(args.model_name_or_path)
     tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
 
     # Update model vocab size
+    # เพิ่มจำนวนคำของโมเดล
     model.resize_token_embeddings(len(tokenizer))
 
     # Save model and tokenizer
+    # บันทึกโมเดลและตัวตัดคำ
     model.save_pretrained(args.output_path)
     tokenizer.save_pretrained(args.output_path)

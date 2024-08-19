@@ -51,15 +51,17 @@ if __name__ == "__main__":
         help="The number of processes to use for tokenization. Defaults to the number of CPU cores.",  # noqa: E501
     )
 
-    # Parse the command-line arguments
     args = parser.parse_args()
 
     # Load the tokenizer from the specified name or path
+    # โหลด tokenizer จากชื่อหรือ path ที่ระบุ
     tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_name_or_path)
 
     # Load the dataset from the specified path
+    # โหลด dataset จาก path ที่ระบุ
     if not args.is_local:
         # Load dataset from a dataset repository
+        # โหลด dataset จาก repository
         dataset = load_dataset(
             path=args.dataset_path,
             name=args.dataset_name,
@@ -67,9 +69,11 @@ if __name__ == "__main__":
         )
     else:
         # Load dataset from a local directory
+        # โหลด dataset จาก directory ภายในเครื่อง
         dataset = load_from_disk(args.dataset_path)
 
     # Apply the tokenization function to the dataset
+    # ใช้ฟังก์ชัน tokenization กับ dataset
     dataset = dataset.map(
         tokenize_function(
             tokenizer,
@@ -81,4 +85,5 @@ if __name__ == "__main__":
     )
 
     # Save the processed dataset to the specified output path
+    # บันทึก dataset ที่ประมวลผลแล้วไปยัง path ที่ระบุ
     dataset.save_to_disk(args.output_path)

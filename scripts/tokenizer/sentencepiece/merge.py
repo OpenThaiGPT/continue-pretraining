@@ -28,7 +28,7 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    # call merge function
+
     tokenizer = merge.merge(
         args.main_tokenizer_path,
         args.add_tokenizer_path,
@@ -42,8 +42,10 @@ if __name__ == "__main__":
         vocab_file=args.output_path + "/spm_tokenizer.model",
     )
     # change special tokens
+    # เปลี่ยน special tokens
     tokenizer.eos_token = constants.EOS_TOKEN
     tokenizer.bos_token = constants.BOS_TOKEN
     tokenizer.unk_token = constants.UNK_TOKEN
-    # save model
+    # save tokenizer
+    # บันทึกตัวตัดคำ
     tokenizer.save_pretrained(args.output_path)

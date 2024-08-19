@@ -19,6 +19,16 @@ def make_data_module(
 
     Returns:
         Dict: A dictionary containing the training dataset, evaluation dataset, and data collator.
+
+    ---
+
+    สร้าง data module สำหรับการ pretraining รวมถึง datasets และ data collator
+
+    Args:
+        data_args (DataArguments): การตั้งค่าสำหรับการโหลด datasets
+
+    Returns:
+        Dict: พจนานุกรมที่ประกอบด้วย training dataset, evaluation dataset และ data collator
     """  # noqa: E501
     train_dataset = load_from_disk(
         os.path.join(data_args.data_path, data_args.train_split)
