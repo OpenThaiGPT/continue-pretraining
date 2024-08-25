@@ -13,7 +13,7 @@ conda deactivate
 conda activate <your_env>
 
 python ./train.py \
-    --output_path ./path/to/output \
+    --output_path /path/to/output \
     --vocab_size 32000 \
     --load_dataset_path /path/to/dataset \
     --mode bpe \

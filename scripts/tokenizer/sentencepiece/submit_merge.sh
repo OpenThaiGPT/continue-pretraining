@@ -14,5 +14,5 @@ conda activate <your_env>
 
 python ./merge.py \
     --main_tokenizer_path /path/to/original/llama/tokenizer \
-    --main_tokenizer_path /path/to/extra/sentencepiece/tokenizer \
+    --add_tokenizer_path /path/to/extra/sentencepiece/tokenizer \
     --output_path /path/to/save \

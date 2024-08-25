@@ -14,7 +14,7 @@ conda activate <your_env>
 
 python ./preprocess_dataset.py \
     --tokenizer_name_or_path /path/to/tokenizer \
-    --dataset_path /path/to/dataset_1 \
+    --dataset_path /path/to/dataset \
     --output_path /path/to/output \
     --max_sequence_length 2048 \
     --is_local
