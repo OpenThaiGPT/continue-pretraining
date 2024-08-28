@@ -89,8 +89,8 @@ def train(
         None
     """  # noqa: E501
 
-    # Load the dataset
-    # โหลด dataset
+    # Load dataset from Hugging Face if not local
+    # โหลด dataset จาก Hugging Face หากไม่ได้อยู่ใน local
     if not is_local:
         dataset = load_dataset(
             path=load_dataset_path,
