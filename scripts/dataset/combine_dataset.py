@@ -52,6 +52,12 @@ if __name__ == "__main__":
         help="Seed for random shuffling. Defaults to 42.",
     )
     parser.add_argument(
+        "--buffer_size",
+        type=int,
+        default=1000,
+        help="Buffer for random shuffling. Defaults to 42.",
+    )
+    parser.add_argument(
         "--num_proc",
         default=os.cpu_count(),
         type=int,
@@ -72,8 +78,8 @@ if __name__ == "__main__":
     else:
         dataset_1 = load_dataset(args.dataset_path_1, split=args.split)
         dataset_2 = load_dataset(args.dataset_path_2, split=args.split)
-    dataset_1 = dataset_1.shuffle(seed=args.seed)
-    dataset_2 = dataset_2.shuffle(seed=args.seed)
+    dataset_1 = dataset_1.shuffle(seed=args.seed, buffer_size=args.buffer_size)
+    dataset_2 = dataset_2.shuffle(seed=args.seed, buffer_size=args.buffer_size)
 
     # Calculate sample size
     # คำนวณขนาด sample
