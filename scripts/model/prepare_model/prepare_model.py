@@ -26,7 +26,7 @@ if __name__ == "__main__":
     # Load model and tokenizer
     # โหลดโมเดลและตัวตัดคำ
     model = AutoModelForCausalLM.from_pretrained(args.model_name_or_path)
-    tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
+    tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_path)
 
     # Update model vocab size
     # เพิ่มจำนวนคำของโมเดล
