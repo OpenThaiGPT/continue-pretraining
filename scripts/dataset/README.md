@@ -15,6 +15,7 @@ The `combine_dataset.py` script combines two datasets by sampling a ratio of eac
 - `--ratio_2`: Sampling ratio for the second dataset based on a smaller dataset (optional, default: 1.0).
 - `--split`: Dataset split to load (e.g., train, test, validation) (optional, default: train).
 - `--seed`: Seed for random shuffling (optional, default: 42).
+- `--buffer_size`: Buffer for random shuffling (optional, default: 1000).
 - `--num_proc`: Number of processes for tokenization (optional, default: number of CPU cores).
 
 #### Example Usage

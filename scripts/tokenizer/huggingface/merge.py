@@ -36,11 +36,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.base_merge_file is None:
-        base_merge_file = args.base_tokenizer_dir + "/merges.txt"
+        base_merge_file = args.main_tokenizer_path + "/merges.txt"
     else:
         base_merge_file = args.base_merge_file
     if args.add_merge_file is None:
-        add_merge_file = args.add_tokenizer_dir + "/merges.txt"
+        add_merge_file = args.add_tokenizer_path + "/merges.txt"
     else:
         add_merge_file = args.add_merge_file
 
