@@ -24,7 +24,7 @@ cd continue-pretraining
 ```
 2. สร้างและเปิดใช้งาน environment
 ```bash
-conda create -n continue_pretraining python=3.10 -y
+conda create -n continue_pretraining python=3.11 -y
 conda activate continue_pretraining
 ```
 3. ติดตั้ง dependencies

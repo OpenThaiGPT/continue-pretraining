@@ -25,7 +25,7 @@ cd continue-pretraining
 2. Create and Activate an Environment
 
 ```bash
-conda create -n continue_pretraining python=3.10 -y
+conda create -n continue_pretraining python=3.11 -y
 conda activate continue_pretraining
 ```
 
