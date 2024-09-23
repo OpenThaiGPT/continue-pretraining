@@ -31,5 +31,7 @@ conda activate continue_pretraining
 
 3. Install Dependencies
 ```bash
+pip install 'torch' 'torchvision' 'torchaudio' --index-url https://download.pytorch.org/whl/cu118
+pip install 'ninja' 'packaging>=20.0'
 pip install -e .
 ```

@@ -7,8 +7,9 @@
 
 module restore
 module load Mamba
-module load cudatoolkit/22.7_11.7
-module load gcc/10.3.0
+module load PrgEnv-gnu
+module load cpe-cuda/23.03
+module load cudatoolkit/23.3_11.8
 
 conda deactivate
 conda activate <your_env>
@@ -27,9 +28,6 @@ H=`hostname`
 THEID=`echo -e $HOSTNAMES | python -c "import sys;[sys.stdout.write(str(i)) for i,line in enumerate(next(sys.stdin).split(' ')) if line.strip() == '$H'.strip()]"`
 echo THEID=$THEID
 echo SLURM_PROCID=$SLURM_PROCID
-
-export NCCL_TIMEOUT=3600000
-export NCCL_BLOCKING_WAIT=0
 
 
 accelerate launch \
